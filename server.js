@@ -17,25 +17,42 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
 
-// db.Cardio.create({ name: "Cardio Workout" })
-//   .then(dbUser => {
-//     console.log(dbCardio);
-//   })
-//   .catch(({ message }) => {
-//     console.log(message);
-//   });
-
-// app.get("/notes", (req, res) => {
-//   db.Note.find({})
-//     .then(dbNote => {
-//       res.json(dbNote);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
+// app.get("/exercise", (req, res) => {
+//     console.log(body)
+//     res.render(body.exercise);
+//     // db.Exercise.find({})
+//     //     .then(dbExercise => {
+//     //         res.render(exercise.html);
+//     //     })
+//     //     .catch(err => {
+//     //         res.json(err);
+//     //     });
 // });
 
-// app.get("/user", (req, res) => {
+
+// Create Exercisedb
+db.Exercise.create({ workoutType: "cardio" })
+  .then(dbWorkout => {
+    console.log(dbWorkout);
+  })
+  .catch(({ message }) => {
+    console.log(message);
+  });
+
+// Get /exercise page
+app.get("/exercise", (req, res) => {
+  db.Exercise.find({})
+      .then(dbExercise => {
+        res.render(exercise.html)
+    //   res.json(dbExercise);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
+// Get /stats page
+// app.get("/stats", (req, res) => {
 //   db.User.find({})
 //     .then(dbUser => {
 //       res.json(dbUser);
@@ -73,8 +90,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { 
   // and populate them with any associated Notes.
   // TIP: Check the models out to see how the Notes refers to the User
 // });
-
 // Start the server
 app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}!`);
+    console.log(`App running on port ${PORT}!`);
 });
