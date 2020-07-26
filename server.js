@@ -17,15 +17,16 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
 
+// Create Databases -------------
 
-// Create Exercisedb
-db.Exercise.create({ type: "cardio" })
-    .then(dbExercise => {
-        console.log(dbExercise);
-    })
-    .catch(({ message }) => {
-        console.log(message);
-    });
+// // Create Exercisedb
+// db.Exercise.create({ type: "cardio" })
+//     .then(dbExercise => {
+//         console.log(dbExercise);
+//     })
+//     .catch(({ message }) => {
+//         console.log(message);
+//     });
 
 // // Create Workoutdb
 // db.Workout.create({ type: "cardio" })
@@ -37,10 +38,18 @@ db.Exercise.create({ type: "cardio" })
 //     });
 
 
+
+//Render Pages (HTML ROUTES) ---------
+// Render exercise page
+// app.get("/exercise", (req, res) => {
+//     res.sendFile(path.join(__dirname, "/exercise.html"))
+// });
+
+
 // // Render exercise page
 // app.get("/exercise", (req, res) => {
 //     console.log ("test")
-//     // res.render("exercise");
+//     // res.render("/exercise");
 // });
 
 // // Render stats page
@@ -50,17 +59,19 @@ db.Exercise.create({ type: "cardio" })
 // });
 
 
-// Get /exercise page
-app.get("/exercise", (req, res) => {
-    db.Exercise.find({})
-        .then(dbExercise => {
-            // res.render("exercise")
-            res.json(dbExercise);
-        })
-        .catch(err => {
-            res.json(err);
-        });
-});
+// CRUD operations (api Routes) -------
+
+// // Get /exercise page
+// app.get("/exercise", (req, res) => {
+//     db.Exercise.find({})
+//         .then(dbExercise => {
+//             // res.render("exercise")
+//             res.json(dbExercise);
+//         })
+//         .catch(err => {
+//             res.json(err);
+//         });
+// });
 
 // Get /stats page
 // app.get("/stats", (req, res) => {
