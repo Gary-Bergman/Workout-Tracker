@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 
@@ -40,23 +41,17 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { 
 
 
 //Render Pages (HTML ROUTES) ---------
-// Render exercise page
-// app.get("/exercise", (req, res) => {
-//     res.sendFile(path.join(__dirname, "/exercise.html"))
-// });
+
+//Render exercise page
+app.get("/exercise", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/exercise.html"))
+});
 
 
-// // Render exercise page
-// app.get("/exercise", (req, res) => {
-//     console.log ("test")
-//     // res.render("/exercise");
-// });
-
-// // Render stats page
-// app.get("/stats", (req, res) => {
-//     // console.log (req.body)
-//     res.render("stats");
-// });
+// Render stats page
+app.get("/stats", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/stats.html"))
+});
 
 
 // CRUD operations (api Routes) -------
