@@ -17,38 +17,49 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
 
+
+// Create Exercisedb
+db.Exercise.create({ type: "cardio" })
+    .then(dbExercise => {
+        console.log(dbExercise);
+    })
+    .catch(({ message }) => {
+        console.log(message);
+    });
+
+// // Create Workoutdb
+// db.Workout.create({ type: "cardio" })
+//     .then(dbWorkout => {
+//         console.log(dbWorkout);
+//     })
+//     .catch(({ message }) => {
+//         console.log(message);
+//     });
+
+
+// // Render exercise page
 // app.get("/exercise", (req, res) => {
-//     console.log(body)
-//     res.render(body.exercise);
-//     // db.Exercise.find({})
-//     //     .then(dbExercise => {
-//     //         res.render(exercise.html);
-//     //     })
-//     //     .catch(err => {
-//     //         res.json(err);
-//     //     });
+//     console.log ("test")
+//     // res.render("exercise");
+// });
+
+// // Render stats page
+// app.get("/stats", (req, res) => {
+//     // console.log (req.body)
+//     res.render("stats");
 // });
 
 
-// Create Exercisedb
-db.Exercise.create({ workoutType: "cardio" })
-  .then(dbWorkout => {
-    console.log(dbWorkout);
-  })
-  .catch(({ message }) => {
-    console.log(message);
-  });
-
 // Get /exercise page
 app.get("/exercise", (req, res) => {
-  db.Exercise.find({})
-      .then(dbExercise => {
-        res.render(exercise.html)
-    //   res.json(dbExercise);
-    })
-    .catch(err => {
-      res.json(err);
-    });
+    db.Exercise.find({})
+        .then(dbExercise => {
+            // res.render("exercise")
+            res.json(dbExercise);
+        })
+        .catch(err => {
+            res.json(err);
+        });
 });
 
 // Get /stats page
@@ -73,22 +84,23 @@ app.get("/exercise", (req, res) => {
 //     });
 // });
 
-// app.get("/populateduser", (req, res) => {
+// app.get("/exercise", (req, res) => {
 
-//   db.User.find({})
-//     .populate("notes")
-//     .then(dbUser => {
-//       res.json(dbUser);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
+//     db.Exercise.find({})
+//         .populate("exercise")
+//         // .then(dbExercise => {
+//         //     res.json(dbExercise);
+//         // })
+//         // .catch(err => {
+//         //     res.json(err);
+//         // });
+// })
 
-  // TODO
-  // =====
-  // Write the query to grab the documents from the User collection,
-  // and populate them with any associated Notes.
-  // TIP: Check the models out to see how the Notes refers to the User
+// TODO
+// =====
+// Write the query to grab the documents from the User collection,
+// and populate them with any associated Notes.
+// TIP: Check the models out to see how the Notes refers to the User
 // });
 // Start the server
 app.listen(PORT, () => {

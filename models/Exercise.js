@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const ExerciseSchema = new Schema({
     type: {
-      type: String
+        type: String
     },
     name: {
         type: String
@@ -19,6 +19,9 @@ const ExerciseSchema = new Schema({
         type: Number
     },
     reps: {
+        type: Number
+    },
+    sets: {
         type: Number
     }
 });
