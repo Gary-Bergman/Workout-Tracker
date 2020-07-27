@@ -20,6 +20,8 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { 
 
 // Create Databases -------------
 
+
+        // Put these in post routes
 // // Create Exercisedb
 // db.Exercise.create({ type: "cardio" })
 //     .then(dbExercise => {
@@ -54,30 +56,32 @@ app.get("/stats", (req, res) => {
 });
 
 
-// CRUD operations (api Routes) -------
+// (other) CRUD operations (api Routes) -------
 
-// // Get /exercise page
-// app.get("/exercise", (req, res) => {
-//     db.Exercise.find({})
-//         .then(dbExercise => {
+// // Get new exercise
+// app.get("/api/workouts", (req, res) => {
+//     db.Workout.find({})
+//         .then(workouts => {
 //             // res.render("exercise")
-//             res.json(dbExercise);
+//             res.json(workouts);
 //         })
 //         .catch(err => {
 //             res.json(err);
 //         });
 // });
 
-// Get /stats page
-// app.get("/stats", (req, res) => {
-//   db.User.find({})
-//     .then(dbUser => {
-//       res.json(dbUser);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-// });
+// Post new exercise
+app.post("/api/workouts", (req, res) => {
+    db.Workout.create(req.body)
+        .then(Workout => {
+            // res.render("exercise")
+            res.json(Workout);
+        })
+        .catch(err => {
+            res.json(err);
+        });
+});
+
 
 // app.post("/submit", ({ body }, res) => {
 //   db.Note.create(body)
@@ -88,26 +92,8 @@ app.get("/stats", (req, res) => {
 //     .catch(err => {
 //       res.json(err);
 //     });
-// });
 
-// app.get("/exercise", (req, res) => {
 
-//     db.Exercise.find({})
-//         .populate("exercise")
-//         // .then(dbExercise => {
-//         //     res.json(dbExercise);
-//         // })
-//         // .catch(err => {
-//         //     res.json(err);
-//         // });
-// })
-
-// TODO
-// =====
-// Write the query to grab the documents from the User collection,
-// and populate them with any associated Notes.
-// TIP: Check the models out to see how the Notes refers to the User
-// });
 // Start the server
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);

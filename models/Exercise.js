@@ -4,19 +4,19 @@ const Schema = mongoose.Schema;
 
 const ExerciseSchema = new Schema({
     type: {
-        type: String
+        type: String,
     },
     name: {
-        type: String
+        type: String,
     },
     distance: {
-        type: Number
+        type: Number,
     },
     duration: {
-        type: Number
+        type: Number,
     },
     weight: {
-        type: Number
+        type: Number,
     },
     reps: {
         type: Number
