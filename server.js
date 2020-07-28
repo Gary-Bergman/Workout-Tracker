@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { 
 // Create Databases -------------
 
 
-        // Put these in post routes
+// Put these in post routes
 // // Create Exercisedb
 // db.Exercise.create({ type: "cardio" })
 //     .then(dbExercise => {
@@ -58,24 +58,12 @@ app.get("/stats", (req, res) => {
 
 // (other) CRUD operations (api Routes) -------
 
-// // Get new exercise
-// app.get("/api/workouts", (req, res) => {
-//     db.Workout.find({})
-//         .then(workouts => {
-//             // res.render("exercise")
-//             res.json(workouts);
-//         })
-//         .catch(err => {
-//             res.json(err);
-//         });
-// });
-
-// Post new exercise
-app.post("/api/workouts", (req, res) => {
-    db.Workout.create(req.body)
-        .then(Workout => {
-            // res.render("exercise")
-            res.json(Workout);
+// Get exercises (getLastWorkout)
+app.get("/api/workouts", (req, res) => {
+    db.Workout.find({})
+        .then(workouts => {
+            // res.render("workouts")
+            res.json(workouts);
         })
         .catch(err => {
             res.json(err);
@@ -83,15 +71,35 @@ app.post("/api/workouts", (req, res) => {
 });
 
 
-// app.post("/submit", ({ body }, res) => {
-//   db.Note.create(body)
-//     .then(({ _id }) => db.User.findOneAndUpdate({}, { $push: { notes: _id } }, { new: true }))
-//     .then(dbUser => {
-//       res.json(dbUser);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
+// Need to return json data from updated id (addExercise)
+app.put("/api/workouts/" + id), (req, res) => {
+    db.Exercise.create(req.body)
+    console.log("Test!")
+        .then(dbExercise => {
+            console.log("Test" + dbExercise);
+        })
+        .catch(({ message }) => {
+            console.log(message);
+        });
+}
+
+
+
+// Post new exercise (createWorkout)
+app.post("/api/workouts", (req, res) => {
+   db.Workout.create(req.body)
+    .then(workout => {
+        console.log(workout);
+       res.json(req.body)
+    })
+    .catch(({ message }) => {
+        console.log(message);
+    });
+});
+
+// // Get workouts range (getWorkoutsInRange)
+// app.get("/api/workouts/range")
+
 
 
 // Start the server
