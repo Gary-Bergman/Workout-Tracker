@@ -19,42 +19,12 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
-// Create Databases -------------
-
-
-// Put these in post routes
-// // Create Exercisedb
-// db.Exercise.create({ type: "cardio" })
-//     .then(dbExercise => {
-//         console.log(dbExercise);
-//     })
-//     .catch(({ message }) => {
-//         console.log(message);
-//     });
-
-// // Create Workoutdb
-// db.Workout.create({ type: "cardio" })
-//     .then(dbWorkout => {
-//         console.log(dbWorkout);
-//     })
-//     .catch(({ message }) => {
-//         console.log(message);
-//     });
-
-
-
 //Render Pages (HTML ROUTES) ---------
-
-// Render home
-// app.get("/", (req, res) => {
-//     res.sendFile(path.join(__dirname, "public/index.html"))
-// });
 
 //Render exercise page
 app.get("/exercise", (req, res) => {
     res.sendFile(path.join(__dirname, "public/exercise.html"))
 });
-
 
 // Render stats page
 app.get("/stats", (req, res) => {
@@ -69,21 +39,23 @@ app.get("/api/workouts", (req, res) => {
     db.Workout.find({}).populate("exercises")
         //May be Exercise
         .then(workout => {
-            console.log(workout.ex)
+            // console.log("workout = " + workout)
             // res.render("workouts")
             let newWorkoutArray = [];
             for (let i = 0; i < workout.length; i++) {
                 let newWorkoutObject;
                 let totalDuration = 0;
-                for (let j = 0; j < workout[i].exercises; j++) {
-                    totalDuration += parseInt(workout[i].exercises[j].duration);
-                    console.log(totalDuration, workout[i].exercises[j].duration)
+                for (let j = 0; j < workout[i].exercises.length; j++) {
+                    totalDuration += workout[i].exercises[j].duration;
+                    // console.log("totalDuration = " + totalDuration)
+                    // console.log("workout[i].exercises[j].duration = " + workout[i].exercises[j].duration);
                 }
 
                 newWorkoutObject = { day: workout[i].day, exercises: workout[i].exercises, totalDuration: totalDuration };
 
                 newWorkoutArray.push(newWorkoutObject);
             }
+            // console.log("newWorkoutArray[0].totalDuration = " + )
             res.json(newWorkoutArray)
             // res.render("workouts")
             // make a let that's newWorkoutArray = []
@@ -106,13 +78,10 @@ app.get("/api/workouts", (req, res) => {
 });
 
 
-// Need to return json data from updated id (addExercise)
-
-//use req.params
+// Return json data from updated id when user adds exercise (addExercise)
 app.put("/api/workouts/:id", (req, res) => {
     db.Exercise.create(req.body)
         .then((exerciseData) => {
-            console.log(exerciseData);
             db.Workout.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: exerciseData._id } }, { new: true }
             ).then(exercise => {
                 res.json(exercise);
@@ -121,10 +90,7 @@ app.put("/api/workouts/:id", (req, res) => {
                     res.json(err);
                 });
         })
-
 })
-
-
 
 // Post new exercise (createWorkout)
 app.post("/api/workouts", (req, res) => {
@@ -149,8 +115,6 @@ app.get("/api/workouts/range", (req, res) => {
             console.log(message);
         });
 })
-
-
 
 
 // Start the server
