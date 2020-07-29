@@ -18,7 +18,7 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
-//Render Pages (HTML ROUTES) ---------
+//Render Pages - HTML ROUTES ---------
 
 //Render exercise page
 app.get("/exercise", (req, res) => {
@@ -31,32 +31,25 @@ app.get("/stats", (req, res) => {
 });
 
 
-// (other) CRUD operations (api Routes) -------
+// API ROUTES -------
 
 // Get exercises (getLastWorkout)
 app.get("/api/workouts", (req, res) => {
     db.Workout.find({}).populate("exercises")
-        //May be Exercise
         .then(workout => {
-            // console.log("workout = " + workout)
-            // res.render("workouts")
             let newWorkoutArray = [];
             for (let i = 0; i < workout.length; i++) {
                 let newWorkoutObject;
                 let totalDuration = 0;
                 for (let j = 0; j < workout[i].exercises.length; j++) {
                     totalDuration += workout[i].exercises[j].duration;
-                    // console.log("totalDuration = " + totalDuration)
-                    // console.log("workout[i].exercises[j].duration = " + workout[i].exercises[j].duration);
                 }
 
-                newWorkoutObject = { day: workout[i].day, exercises: workout[i].exercises, totalDuration: totalDuration };
+                newWorkoutObject = { day: workout[i].day, exercises: workout[i].exercises, _id: workout[i]._id, totalDuration: totalDuration };
 
                 newWorkoutArray.push(newWorkoutObject);
             }
-            // console.log("newWorkoutArray[0].totalDuration = " + )
             res.json(newWorkoutArray)
-            // res.json(workout);
         })
         .catch(err => {
             res.json(err);
