@@ -6,7 +6,6 @@ const path = require("path");
 const PORT = process.env.PORT || 3001;
 
 const db = require("./models");
-// const { Exercise } = require("./models");
 
 const app = express();
 
@@ -57,19 +56,6 @@ app.get("/api/workouts", (req, res) => {
             }
             // console.log("newWorkoutArray[0].totalDuration = " + )
             res.json(newWorkoutArray)
-            // res.render("workouts")
-            // make a let that's newWorkoutArray = []
-            // make a for loop to loop through workout.length
-            // inside for loop make another let call it newWorkoutObject
-            // make a mew let for totalDuration = 0
-            // inside that for loop loop through workout[i].exercises
-            // set totalDuration += workout[i].exercises[j].duration
-            // inside main for loop but after the inner for loop, rebuild the object newWorkoutObject = {day:workout[i].day, exercises:workout[i].exercises, totalDuration: totalDuration}
-            // push newWorkoutObject to newWorkoutArray
-            // end of outer for loop
-            // res.json newWorkoutArray
-
-
             // res.json(workout);
         })
         .catch(err => {
